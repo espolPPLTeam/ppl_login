@@ -73,7 +73,9 @@
       registroProfesor () {
         this.$router.push('/registro/profesor')
       },
-      registroEstudiante () {}
+      registroEstudiante () {
+        this.$router.push('/registro/estudiante')
+      }
     }
   }
 </script>
