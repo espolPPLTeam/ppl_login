@@ -12,9 +12,34 @@
         <v-text-field prepend-icon="lock" name="password" label="Contraseña" id="password" type="password" v-model="password" :rules="[rules.required]"></v-text-field>
       </v-form>
     </v-card-text>
-    <v-card-actions>
-      <v-btn class="primary-espol mx-auto" :loading="loading" :disabled="disabled" @click.native="login">Iniciar sesión</v-btn>
+    <v-card-actions class="mx-auto pb-3" style="justify-content: center;">
+      <v-container grid-list-xl fluid>
+        <v-layout wrap class="text-xs-center">
+          <v-flex xs12 sm6>
+            <v-btn class="primary-espol" :loading="loading" :disabled="disabled" @click.native="login">Iniciar sesión</v-btn>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <v-menu offset-y>
+              <v-btn class="btn-registrar" slot="activator">Registrar</v-btn>
+              <v-list>
+                <v-list-tile @click="registroProfesor">
+                  <v-list-tile-title>Profesor</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="registroEstudiante">
+                  <v-list-tile-title>Estudiante</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      
+      <!--<v-btn class="btn-registrar">Registrar</v-btn>-->
+      
     </v-card-actions>
+    <!--<v-card-actions class="mt-3">
+      <p class="mx-auto">¿No tienes usuario? <a href="/registro"> Regístrate aquí!</a></p>      
+    </v-card-actions>-->
   </v-card>
 </template>
 <script>
@@ -44,8 +69,20 @@
         setTimeout(() => {
           this.loading = false
         }, 3000)
-      }
+      },
+      registroProfesor () {
+        this.$router.push('/registro/profesor')
+      },
+      registroEstudiante () {}
     }
   }
 </script>
-<style scoped></style>
+<style scoped>
+  button {
+    width: 150px !important;
+  }
+  .btn-registrar {
+    background-color: white !important;
+    color: #001C43 !important;
+  }
+</style>
