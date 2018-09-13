@@ -1,5 +1,5 @@
 module.exports.noSpecialChars = (v) => {
-  return  !/[`~,<>;':"/[\]|{}()=+]/.test(v)
+  return  !/[`~,<>;'"/[\]|{}()=+]/.test(v)
 }
 
 module.exports.notEmpty = (v) => {
