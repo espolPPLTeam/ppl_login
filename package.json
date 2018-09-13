@@ -1,0 +1,39 @@
+{
+  "name": "ppl_login",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development env-cmd .env nodemon server.js --config nodemon.json",
+    "test:m": "cross-env NODE_ENV=testing nyc --reporter=html mocha api/modulos/**/*.model.test.js --exit || true",
+    "test:c": "cross-env NODE_ENV=testing mocha api/modulos/**/*.controller.test.js --exit || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/espolPPLTeam/ppl_login.git"
+  },
+  "author": "@edisonmora95",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/espolPPLTeam/ppl_login/issues"
+  },
+  "homepage": "https://github.com/espolPPLTeam/ppl_login#readme",
+  "dependencies": {
+    "bcrypt": "2.x.x",
+    "cross-env": "^5.2.0",
+    "env-cmd": "^8.0.2",
+    "fastify": "^1.11.2",
+    "mongoose": "^5.2.14",
+    "shortid": "^2.2.13"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
+    "nyc": "^13.0.1"
+  },
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.4.1"
+  }
+}
