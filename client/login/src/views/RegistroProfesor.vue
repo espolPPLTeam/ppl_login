@@ -12,25 +12,25 @@
           <v-container grid-list-xl fluid>
             <v-layout wrap>
               <v-flex xs12 sm6>
-                <v-text-field name="nombres" label="Nombres" type="text" v-model="nombres" :rules="[rules.required, rules.maximo]"></v-text-field>
+                <v-text-field name="nombres" label="Nombres" type="text" v-model="profesor.nombres" :rules="[rules.required, rules.maximo]"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-text-field name="apellidos" label="Apellidos" type="text" v-model="apellidos" :rules="[rules.required, rules.maximo]"></v-text-field>
+                <v-text-field name="apellidos" label="Apellidos" type="text" v-model="profesor.apellidos" :rules="[rules.required, rules.maximo]"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-text-field name="email" label="Correo" type="text" v-model="email" :rules="[rules.required, rules.email]"></v-text-field>
+                <v-text-field name="email" label="Correo" type="text" v-model="profesor.email" :rules="[rules.required, rules.email]"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-text-field name="password" label="Contraseña" type="password" v-model="password" :rules="[rules.required, rules.maximo]"></v-text-field>
+                <v-text-field name="clave" label="Contraseña" type="password" v-model="profesor.clave" :rules="[rules.required, rules.maximo]"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-text-field name="repeatPassword" label="Repetir contraseña" type="password" v-model="repeatPassword" :rules="[rules.required, rules.repeatPassword, rules.maximo]"></v-text-field>
+                <v-text-field name="repeatClave" label="Repetir contraseña" type="password" v-model="repeatClave" :rules="[rules.required, rules.repeatClave, rules.maximo]"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -42,11 +42,14 @@
     </v-card>
     <v-dialog v-model="dialog.active" width="500">
       <v-card class="text-xs-center">
-        <v-card-text class="headline">Usuario registrado</v-card-text>
+        <v-card-text class="headline">{{ dialog.text }}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat router :to="'/'">
-            Ok
+            Regresar
+          </v-btn>
+          <v-btn v-if="dialog.status === 'error'" flat @click="dialog.active = false">
+            Aceptar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,19 +60,21 @@
   export default {
     data () {
       return {
-        nombres: '',
-        apellidos: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
+        profesor: {
+          nombres: '',
+          apellidos: '',
+          email: '',
+          clave: '',
+        },        
+        repeatClave: '',
         rules: {
           required: (value) => !!value || 'Este campo es obligatorio.',
           email: value => {
             const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return pattern.test(value) || 'Email inválido.'
           },
-          repeatPassword: (value) => {
-            return value === this.password || 'Contraseñas no coinciden.'
+          repeatClave: (value) => {
+            return value === this.profesor.clave || 'Contraseñas no coinciden.'
           },
           maximo: (value) => {
             return value.length <= 50 || 'Máximo 50 caracteres.'
@@ -79,12 +84,13 @@
         dialog: {
           active: false,
           text: '',
-        }
+          status: ''
+        }        
       }
     },
     computed: {
       disabled () {
-        return this.isEmpty(this.nombres) || this.isEmpty(this.apellidos) || this.isEmpty(this.email) || this.isEmpty(this.password) || this.isEmpty(this.repeatPassword) || this.loading || this.password !== this.repeatPassword
+        return this.isEmpty(this.profesor.nombres) || this.isEmpty(this.profesor.apellidos) || this.isEmpty(this.profesor.email) || this.isEmpty(this.profesor.clave) || this.isEmpty(this.repeatClave) || this.loading || this.profesor.clave !== this.repeatClave
       }
     },
     methods: {
@@ -93,18 +99,26 @@
       },
       registrar () {
         this.loading = true
-        setTimeout(() => {
-          this.loading = false
-          this.dialogSuccess()
-        }, 3000)
+        const url = '/api/login/profesores'
+        this.$http.post(url, this.profesor)
+          .then((resp) => {
+            this.dialogSuccess()
+            this.loading = false
+          })
+          .catch((err) => {
+            this.dialogError(err.body.message)
+            this.loading = false
+          })
       },
       dialogSuccess () {
         this.dialog.active = true
         this.dialog.text = 'Usuario registrado'
+        this.dialog.status = 'success'
       },
-      dialogError () {
+      dialogError (text) {
         this.dialog.active = true
-        this.dialog.text = 'Error al registrar usuario'
+        this.dialog.text = text
+        this.dialog.status = 'error'
       }
     }
   }

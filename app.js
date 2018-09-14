@@ -8,5 +8,7 @@ const fastify = Fastify(logger())
 // rutas api
 const profesores = require('./api/modulos/profesores/profesores.routes')
 fastify.register(profesores, prefix)
+const estudiantes = require('./api/modulos/estudiantes/estudiantes.routes')
+fastify.register(estudiantes, prefix)
 
 module.exports = fastify
