@@ -82,8 +82,8 @@ EstudiantesSchema.methods = {
 }
 
 EstudiantesSchema.statics = {
-	buscarPorEmail (email) {
-		return this.findOne({email}).select('-createdAt -updatedAt -clave').exec()
+	buscarPorEmail (email, projection) {
+		return this.findOne({email}).select(projection).exec()
 	}
 }
 

@@ -1,23 +1,20 @@
 // const Usuario = require('../models/usuario')
 
 const bcrypt = require('bcrypt')
-// const jwt    = require('jsonwebtoken')
+const jwt    = require('jsonwebtoken')
 
-/* module.exports.authenticate = async (mail, password) => {
-  let usuario = await Usuario.buscarPorCorreo(mail)
-  if (!usuario) {
-    return Promise.reject({ message: 'No se encontró el correo en la base de datos' })
-  }
-  if( !bcrypt.compareSync(password, usuario.password) ) {
+module.exports.authenticate = async (user, clave, tipo) => {
+  if( !bcrypt.compareSync(clave, user.clave) ) {
     return Promise.reject({ message: 'Contraseñas no coinciden' })
   }
   const payload = {
-    correo: usuario.correo
+    email: user.email,
+    tipo
   }
   const secret = process.env.SECRET
-  const token  = jwt.sign(payload, secret, { expiresIn: '1h' })
+  const token  = jwt.sign(payload, secret, { expiresIn: '24h' })
   return Promise.resolve(token)
-} */
+}
 
 module.exports.generateHash = (password) => {
   return new Promise( (resolve, reject) => {
