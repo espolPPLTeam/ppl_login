@@ -7,5 +7,10 @@ module.exports = function (app, opts, next) {
     return resp
   })
 
+  app.put('/estudiantes/:email_estudiante/registrarParalelo', async (req, res) => {
+  	let resp = await EstudiantesController.registrarParalelo(req.params.email_estudiante, req.body.paralelo)
+  	return resp
+  })
+
   next()
 }

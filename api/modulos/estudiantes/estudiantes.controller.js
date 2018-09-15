@@ -1,6 +1,7 @@
 const responses = require('../../config/responses')
 const auth = require('../authentication/authentication')
 const Estudiantes = require('./estudiantes.model')
+const Paralelos = require('../paralelos/paralelos.model')
 
 const registrar = async (datos) => {
   if (!datos) return Promise.reject({type: 'Type error',  message: 'Debe enviar el estudiante.'})
@@ -16,6 +17,15 @@ const registrar = async (datos) => {
   return responses.OK(estudianteCreado)
 }
 
+const registrarParalelo = async (emailEstudiante, idParalelo) => {
+  if (!emailEstudiante) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el email del estudiante' })
+  if (!idParalelo) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el id del paralelo' })
+  await Estudiantes.registrarParalelo(emailEstudiante, idParalelo)
+  await  Paralelos.registrarEstudiante(idParalelo, emailEstudiante)
+  return responses.OK()
+}
+
 module.exports = {
-  registrar
+  registrar,
+  registrarParalelo
 }
