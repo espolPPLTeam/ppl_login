@@ -10,7 +10,7 @@
       <v-card-text>
         <v-form>
           <v-container grid-list-xl fluid>
-            <registro-materia :id="id" :materias="materias" :paralelos="paralelos" v-on:registrar="estudianteRegistrado"></registro-materia>
+            <registro-materia :email="email" :materias="materias" :paralelos="paralelos" v-on:registrar="estudianteRegistrado"></registro-materia>
           </v-container>
         </v-form>
       </v-card-text>
@@ -27,11 +27,19 @@
 <script>
   export default {
     mounted () {
-      this.id = this.$route.params.id_estudiante
+      this.email = this.$route.params.email_estudiante
+      Promise.all([
+        this.getMaterias(),
+        this.getParalelos()
+      ]).then((values) => {
+        console.log(values)
+        this.materias = values[0]
+        this.paralelos = values[1]
+      })
     },
     data () {
       return {
-        id: '',
+        email: '',
         materias: [
           {
             nombre: 'Física 2',
@@ -96,6 +104,15 @@
       estudianteRegistrado () {
         this.registrado = true
         this.snackbar = true
+      },
+      getMaterias () {
+        /*return new Promise((resolve, reject) => {
+          return 
+        })*/
+        return this.$http.get('/api/login/materias').then((resp) => Promise.resolve(resp.body.datos))
+      },
+      getParalelos () {
+        return this.$http.get('/api/login/paralelos').then((resp) => Promise.resolve(resp.body.datos))
       }
     }
   }

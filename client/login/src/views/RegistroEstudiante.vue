@@ -20,7 +20,7 @@
             </v-layout>
             <v-layout wrap>
               <v-flex xs12 sm6>
-                <v-text-field name="matricula" label="Matrícula/Identificación" type="text" v-model="estudiante.matricula" :rules="[rules.required, rules.maximo]"></v-text-field>
+                <v-text-field name="matricula" label="Matrícula/Identificación" type="number" min="0" v-model="estudiante.matricula" :rules="[rules.required, rules.maximo]"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
                 <v-text-field name="carrera" label="Carrera" type="text" v-model="estudiante.carrera" :rules="[rules.maximo]"></v-text-field>
@@ -114,7 +114,7 @@
           .then((resp) => {
             //this.dialogSuccess()
             this.loading = false
-            this.$router.push(`/registro/estudiante/${resp.body.datos._id}/materias`)
+            this.$router.push(`/registro/estudiante/${this.estudiante.email}/materias`)
           })
           .catch((err) => {
             this.dialogError(err.body.message)

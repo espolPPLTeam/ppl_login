@@ -26,7 +26,7 @@ export default new Router({
       component: RegistroEstudiante
     },
     {
-      path: '/registro/estudiante/:id_estudiante/materias',
+      path: '/registro/estudiante/:email_estudiante/materias',
       name: 'RegistroMaterias',
       component: RegistroMaterias
     }

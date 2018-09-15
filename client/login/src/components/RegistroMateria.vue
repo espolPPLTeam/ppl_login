@@ -19,7 +19,7 @@
 </template>
 <script>
   export default {
-    props: ['id', 'materias', 'paralelos'],
+    props: ['email', 'materias', 'paralelos'],
     data () {
       return {
         materiaSeleccionada: '',
@@ -39,8 +39,13 @@
     },
     methods: {
       registrar () {
-        this.checked = true
-        this.$emit('registrar', true)
+        this.$http.put(`/api/login/estudiantes/${this.email}/registrarParalelo`, { paralelo: this.paraleloSeleccionado })
+          .then((resp) => {
+            this.checked = true
+            this.$emit('registrar', true)
+          }, (err) => {
+            console.log(err)
+          })        
       }
     }
   }
