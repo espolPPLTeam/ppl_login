@@ -112,8 +112,9 @@
         const url = '/api/login/estudiantes'
         this.$http.post(url, this.estudiante)
           .then((resp) => {
-            this.dialogSuccess()
+            //this.dialogSuccess()
             this.loading = false
+            this.$router.push(`/registro/estudiante/${resp.body.datos._id}/materias`)
           })
           .catch((err) => {
             this.dialogError(err.body.message)

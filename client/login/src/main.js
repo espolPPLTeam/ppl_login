@@ -7,6 +7,10 @@ import './plugins/vuetify'
 import router from './router'
 import App from './App.vue'
 
+import RegistroMateria from './components/RegistroMateria.vue'
+
+Vue.component('registro-materia', RegistroMateria)
+
 Vue.use(VueResource)
 Vue.config.productionTip = false
 

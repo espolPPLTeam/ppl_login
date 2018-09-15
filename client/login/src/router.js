@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 import RegistroProfesor from './views/RegistroProfesor.vue'
 import RegistroEstudiante from './views/RegistroEstudiante.vue'
+import RegistroMaterias from './views/RegistroMaterias.vue'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/registro/estudiante',
       name: 'RegistroEstudiante',
       component: RegistroEstudiante
+    },
+    {
+      path: '/registro/estudiante/:id_estudiante/materias',
+      name: 'RegistroMaterias',
+      component: RegistroMaterias
     }
   ]
 })
