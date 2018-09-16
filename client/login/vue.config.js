@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: '/login/',
   devServer: {
     host: "localhost",
     port: 8080,
