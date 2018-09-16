@@ -13,8 +13,18 @@
           <v-icon>check</v-icon>
         </v-btn>
       </v-tooltip>
-      <!--<v-btn class="hidden-sm-and-down primary-espol" @click="checked = true" :disabled="checked || materiaSeleccionada === '' || paraleloSeleccionado === ''">Registrar</v-btn>-->
     </v-flex>
+    <v-dialog v-model="error.active" width="500">
+      <v-card class="text-xs-center">
+        <v-card-text class="headline">{{ error.message }}</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="error.active = false">
+            Aceptar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 <script>
@@ -24,7 +34,11 @@
       return {
         materiaSeleccionada: '',
         paraleloSeleccionado: '',
-        checked: false
+        checked: false,
+        error: {
+          active: false,
+          message: ''
+        }
       }
     },
     computed: {
@@ -40,11 +54,11 @@
     methods: {
       registrar () {
         this.$http.put(`/api/login/estudiantes/${this.email}/registrarParalelo`, { paralelo: this.paraleloSeleccionado })
-          .then((resp) => {
+          .then(() => {
             this.checked = true
             this.$emit('registrar', true)
           }, (err) => {
-            console.log(err)
+            this.error.message = err.body.datos.message
           })        
       }
     }

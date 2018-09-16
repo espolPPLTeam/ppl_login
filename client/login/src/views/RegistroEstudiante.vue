@@ -1,68 +1,72 @@
 <template>
-  <main>
-    <v-card>
-      <v-toolbar dark color="primary-espol" style="border-bottom: 2px solid #F5b400">
-        <v-btn icon route :to="'/'">
-          <v-icon>arrow_back</v-icon>
-        </v-btn>
-        <v-toolbar-title>Registro Estudiante</v-toolbar-title>
-      </v-toolbar>
-      <v-card-text>
-        <v-form>
-          <v-container grid-list-xl fluid>
-            <v-layout wrap>
-              <v-flex xs12 sm6>
-                <v-text-field name="nombres" label="Nombres" type="text" v-model="estudiante.nombres" :rules="[rules.required, rules.maximo]"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field name="apellidos" label="Apellidos" type="text" v-model="estudiante.apellidos" :rules="[rules.required, rules.maximo]"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout wrap>
-              <v-flex xs12 sm6>
-                <v-text-field name="matricula" label="Matrícula/Identificación" type="number" min="0" v-model="estudiante.matricula" :rules="[rules.required, rules.maximo]"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field name="carrera" label="Carrera" type="text" v-model="estudiante.carrera" :rules="[rules.maximo]"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex xs12>
-                <v-text-field name="email" label="Correo" type="text" v-model="estudiante.email" :rules="[rules.required, rules.email]"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex xs12>
-                <v-text-field name="clave" label="Contraseña" type="password" v-model="estudiante.clave" :rules="[rules.required, rules.maximo]"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex xs12>
-                <v-text-field name="repeatClave" label="Repetir contraseña" type="password" v-model="repeatClave" :rules="[rules.required, rules.repeatClave, rules.maximo]"></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-form>
-      </v-card-text>
-      <v-card-actions class="mx-auto pb-3" style="justify-content: center;">
-        <v-btn class="primary-espol" :loading="loading" :disabled="disabled" @click.native="registrar">Registrar</v-btn>
-      </v-card-actions>
-    </v-card>
-    <v-dialog v-model="dialog.active" width="500">
-      <v-card class="text-xs-center">
-        <v-card-text class="headline">{{ dialog.text }}</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat router :to="'/'">
-            Regresar
-          </v-btn>
-          <v-btn v-if="dialog.status === 'error'" flat @click="dialog.active = false">
-            Aceptar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </main>  
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card>
+          <v-toolbar dark color="primary-espol" style="border-bottom: 2px solid #F5b400">
+            <v-btn icon route :to="'/'">
+              <v-icon>arrow_back</v-icon>
+            </v-btn>
+            <v-toolbar-title>Registro Estudiante</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-container grid-list-xl fluid>
+                <v-layout wrap>
+                  <v-flex xs12 sm6>
+                    <v-text-field name="nombres" label="Nombres" type="text" v-model="estudiante.nombres" :rules="[rules.required, rules.maximo]"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6>
+                    <v-text-field name="apellidos" label="Apellidos" type="text" v-model="estudiante.apellidos" :rules="[rules.required, rules.maximo]"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 sm6>
+                    <v-text-field name="matricula" label="Matrícula/Identificación" type="number" min="0" v-model="estudiante.matricula" :rules="[rules.required, rules.maximo]"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6>
+                    <v-text-field name="carrera" label="Carrera" type="text" v-model="estudiante.carrera" :rules="[rules.maximo]"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs12>
+                    <v-text-field name="email" label="Correo" type="text" v-model="estudiante.email" :rules="[rules.required, rules.email]"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs12>
+                    <v-text-field name="clave" label="Contraseña" type="password" v-model="estudiante.clave" :rules="[rules.required, rules.maximo]"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs12>
+                    <v-text-field name="repeatClave" label="Repetir contraseña" type="password" v-model="repeatClave" :rules="[rules.required, rules.repeatClave, rules.maximo]"></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="mx-auto pb-3" style="justify-content: center;">
+            <v-btn class="primary-espol" :loading="loading" :disabled="disabled" @click.native="registrar">Registrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+      <v-dialog v-model="dialog.active" width="500">
+        <v-card class="text-xs-center">
+          <v-card-text class="headline">{{ dialog.text }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn flat router :to="'/'">
+              Regresar
+            </v-btn>
+            <v-btn v-if="dialog.status === 'error'" flat @click="dialog.active = false">
+              Aceptar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+  </v-container>
 </template>
 <script>
   export default {
@@ -111,8 +115,7 @@
         this.loading = true
         const url = '/api/login/estudiantes'
         this.$http.post(url, this.estudiante)
-          .then((resp) => {
-            //this.dialogSuccess()
+          .then(() => {
             this.loading = false
             this.$router.push(`/registro/estudiante/${this.estudiante.email}/materias`)
           })
