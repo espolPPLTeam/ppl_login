@@ -41,7 +41,12 @@ const ProfesoresSchema = mongoose.Schema({
     required: [true, 'El campo "Clave" es obligatorio']
   },
   gruposAsignados: [],
-  paralelos: [],
+  paralelos: [
+  {
+      type: String,
+      ref: 'Paralelos'
+    }
+  ],
   estado: {
     type: String,
     'default': 'activo',
@@ -69,7 +74,10 @@ ProfesoresSchema.methods = {
 ProfesoresSchema.statics = {
     buscarPorEmail (email, projection) {
         return this.findOne({email}).select(projection).exec()
-    }
+    },
+    buscarPorEmailPopulate (email, projection) {
+    return this.findOne({email}).populate('paralelos').select(projection).exec()
+  }
 }
 
 module.exports = mongoose.model('Profesores', ProfesoresSchema)

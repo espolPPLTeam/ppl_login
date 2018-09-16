@@ -84,6 +84,7 @@
             this.loading = false
             this.dialogSuccess()
             localStorage.setItem('x-access-token', resp.body.datos)
+            localStorage.setItem('email', this.email)
             this.$router.push('/dashboard')
           })
           .catch((err) => {

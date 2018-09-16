@@ -27,6 +27,47 @@ const login = async (email, clave) => {
   return Promise.resolve(token)
 }
 
+const obtenerUsuarioPorEmail = async (email) => {
+  let estudiante = await Estudiantes.buscarPorEmailPopulate(email, '-createdAt -updatedAt -clave')
+  let profesor = await Profesores.buscarPorEmailPopulate(email, '-createdAt -updatedAt -clave')
+  let usuario = null
+
+  if (estudiante !== null) {
+    let paralelos = estudiante.paralelos.map((paralelo) => {
+      return {
+        _id: paralelo._id,
+        nombreParalelo: paralelo.nombre,
+        materia: paralelo.materia,
+        nombreMateria: paralelo.nombreMateria,
+      }
+    })
+    usuario = {
+      ...estudiante._doc,
+      paralelos,
+      tipo: 'estudiante'
+    }
+  } else if (profesor !== null) {
+    let paralelos = profesor.paralelos.map((paralelo) => {
+      return {
+        _id: paralelo._id,
+        nombreParalelo: paralelo.nombre,
+        materia: paralelo.materia,
+        nombreMateria: paralelo.nombreMateria,
+      }
+    })
+    usuario = {
+      ...profesor._doc,
+      paralelos,
+      tipo: 'profesor'
+    }
+  } else {
+    return Promise.reject({ message: 'No se encontró el correo en la base de datos' })
+  }
+
+  return Promise.resolve(usuario)
+}
+
 module.exports = {
-  login
+  login,
+  obtenerUsuarioPorEmail
 }

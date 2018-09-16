@@ -35,23 +35,23 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-layout row wrap align-center justify-center>
-      <v-flex xs12 sm6 class="text-xs-center">
-        <v-card raised hover class="card-materia" height="300px" width="300px">
-          <v-card-title class="pt-5">
-            <h3 class="text-xs-center mx-auto display-1">Física PRE</h3>
-          </v-card-title>
-          <v-card-text class="headline">
-            Paralelo 2
+      <main v-if="loading" class="text-xs-center">
+        <v-progress-circular indeterminate color="primary-espol"></v-progress-circular>
+      </main>
+      <v-flex xs12 v-if="usuario.paralelos.length === 0">
+        <v-responsive :aspect-ratio="16/9">
+          <v-card-text class="text-xs-center headline">
+            No está registrado en ninguna materia.
           </v-card-text>
-        </v-card>
+        </v-responsive>
       </v-flex>
-      <v-flex xs12 sm6 class="text-xs-center">
+      <v-flex xs12 sm6 class="text-xs-center" v-for="paralelo in usuario.paralelos" :key="paralelo._id" v-else>
         <v-card raised hover class="card-materia" height="300px" width="300px">
           <v-card-title class="pt-5">
-            <h3 class="text-xs-center mx-auto display-1">Química PRE</h3>
+            <h3 class="text-xs-center mx-auto display-1">{{ paralelo.nombreMateria }}</h3>
           </v-card-title>
           <v-card-text class="headline">
-            Paralelo 5
+            Paralelo {{ paralelo.nombreParalelo }}
           </v-card-text>
         </v-card>
       </v-flex>
@@ -60,19 +60,42 @@
 </template>
 <script>
   export default {
+    mounted () {
+      const token = localStorage.getItem('x-access-token')
+      const email = localStorage.getItem('email')
+      if (!token || !email) {
+        this.$router.push('/')
+      } else {
+        this.obtenerUsuario(email)  
+      }      
+    },
     data () {
       return {
         sidenav: false,
         usuario: {
-          nombres: 'Edison André',
-          apellidos: 'Mora Cazar',
-          email: 'edanmora@espol.edu.ec'
-        }
+          nombres: '',
+          apellidos: '',
+          email: '',
+          paralelos: []
+        },
+        loading: false
       }
     },
     methods: {
+      obtenerUsuario (email) {
+        this.loading = true
+        this.$http.get(`/api/login/session/${email}`)
+          .then((resp) => {
+            this.usuario = resp.body.datos
+            this.loading = false
+          }, (err) => {
+            console.log(err)
+            this.loading = false
+          })
+      },
       logout () {
         localStorage.removeItem('x-access-token')
+        localStorage.removeItem('email')
         this.$router.push('/')
       }
     }

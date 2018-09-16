@@ -12,3 +12,8 @@ npm run dev
 ```sh
 cd client/login && npm install && npm run serve
 ```
+## Base de datos
+```sh
+cd api/config/db
+node populateDevDB.js
+```

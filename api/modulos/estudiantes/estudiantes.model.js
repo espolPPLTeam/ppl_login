@@ -92,6 +92,9 @@ EstudiantesSchema.statics = {
   },
   registrarParalelo (emailEstudiante, idParalelo) {
     return this.update({ email: emailEstudiante }, { $addToSet: { paralelos: idParalelo } })
+  },
+  buscarPorEmailPopulate (email, projection) {
+    return this.findOne({email}).populate('paralelos').select(projection).exec()
   }
 }
 

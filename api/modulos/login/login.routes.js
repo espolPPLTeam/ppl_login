@@ -7,5 +7,10 @@ module.exports = function (app, opts, next) {
     return { datos: resp }
   })
 
+  app.get('/session/:email', async (req, res) => {
+  	let resp = await LoginController.obtenerUsuarioPorEmail(req.params.email)
+  	return { datos: resp }
+  })
+
   next()
 }

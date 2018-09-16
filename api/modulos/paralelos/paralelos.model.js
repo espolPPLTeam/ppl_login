@@ -45,6 +45,10 @@ const ParalelosSchema = mongoose.Schema({
     ref: 'Materias',
     required: [true]
   },
+  nombreMateria: {
+    type: String,
+    required: [true, 'El campo "Nombre de materia" es obligatorio'],
+  },
   estado: {
     type: String,
     'default': 'activo',
