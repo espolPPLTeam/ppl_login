@@ -61,8 +61,7 @@ const ParalelosSchema = mongoose.Schema({
   estudiantes: [
     {
       type: String,
-      ref: 'Estudiantes',
-      field: 'emai',
+      ref: 'Estudiantes'
     }
   ],
   grupos: []
@@ -88,8 +87,8 @@ ParalelosSchema.statics = {
   mostrarPorAnioTermino (anio, termino) {
     return this.find({ anio, termino }).exec()
   },
-  registrarEstudiante (idParalelo, emailEstudiante) {
-    return this.update({ _id: idParalelo }, { $addToSet: { estudiantes: emailEstudiante } })
+  registrarEstudiante (idParalelo, idEstudiante) {
+    return this.update({ _id: idParalelo }, { $addToSet: { estudiantes: idEstudiante } })
   }
 }
 

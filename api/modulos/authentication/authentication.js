@@ -8,11 +8,12 @@ module.exports.authenticate = async (user, clave, tipo) => {
     return Promise.reject({ message: 'Contraseñas no coinciden' })
   }
   const payload = {
+    _id: user._id,
     email: user.email,
     tipo
   }
   const secret = process.env.SECRET
-  const token  = jwt.sign(payload, secret, { expiresIn: '24h' })
+  const token  = jwt.sign(payload, secret) // Luego hay que ver cómo le añadimos una fecha de expiración y cómo lo manejamos en el front
   return Promise.resolve(token)
 }
 
@@ -28,10 +29,9 @@ module.exports.generateHash = (password) => {
   })
 }
 
-/* module.exports.verifyToken = (req) => {
+module.exports.verifyToken = (req) => {
   return new Promise((resolve, reject) => {
     const token = req.headers['x-access-token']
-
     if( !token ){
       return reject('Token no enviado')
     }
@@ -44,5 +44,5 @@ module.exports.generateHash = (password) => {
       return resolve(decoded)
     })
   })
-} */
+}
 
