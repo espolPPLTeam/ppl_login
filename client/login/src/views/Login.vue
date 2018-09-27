@@ -1,13 +1,75 @@
+<style scoped>
+  button {
+    width: 150px !important;
+  }
+  .btn-registrar {
+    background-color: white !important;
+    color: #001C43 !important;
+  }
+  .loginBar {
+    border-bottom: 2px solid #F5b400;
+    position: relative;   
+  }
+  .loginBar:before {
+    content: "";
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 0px;
+    height: 0px;
+    border-top: 69px solid #001C43;
+    border-right: 69px solid #FFFFFF;
+    -webkit-box-shadow: -5px -1px 1px rgba(0,0,0,0.3);
+    -moz-box-shadow: -5px -1px 1px rgba(0,0,0,0.3);
+    box-shadow: -5px -1px 1px rgba(0,0,0,0.3)
+  }
+  .loginBar:after {
+    content: "";
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 0px;
+    height: 0px;
+    border-bottom: 75px solid #FFFFFF; 
+    border-left: 75px solid transparent;
+  }
+  @media only screen and (max-width: 600px) {
+    .loginBar {
+    border-bottom: 2px solid #F5b400;
+    position: relative;   
+  }
+    .loginBar:before {
+      content: "";
+      position: absolute;
+      top: 0%;
+      right: 0%;
+      width: 0px;
+      height: 0px;
+      border-top: 1px solid transparent;
+      border-right: 1px solid transparent;
+    }
+    .loginBar:after {
+      content: "";
+      position: absolute;
+      top: 0%;
+      right: 0%;
+      width: 0px;
+      height: 0px;
+      border-bottom: 1px solid transparent; 
+      border-left: 1px solid transparent;
+    }
+  }
+</style>
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary-espol" style="border-bottom: 2px solid #F5b400">
+          <v-toolbar dark color="primary-espol" class="loginBar">
             <v-toolbar-title class="mx-auto">Peer Project Learning</v-toolbar-title>
           </v-toolbar>
           <v-card-text class="mt-3">
-            <v-form>
+            <v-form @submit="login">
               <v-text-field prepend-icon="person" name="login" label="Correo" type="text" v-model="email" :rules="[rules.required, rules.email]"></v-text-field>
               <v-text-field prepend-icon="lock" name="password" label="Contraseña" id="password" type="password" v-model="password" :rules="[rules.required]"></v-text-field>
             </v-form>
@@ -16,7 +78,7 @@
             <v-container grid-list-xl fluid>
               <v-layout wrap class="text-xs-center">
                 <v-flex xs12 sm6>
-                  <v-btn class="primary-espol" :loading="loading" :disabled="disabled" @click.native="login">Iniciar sesión</v-btn>
+                  <v-btn class="primary-espol" :loading="loading" :disabled="disabled" @click.native="login" type="submit">Iniciar sesión</v-btn>
                 </v-flex>
                 <v-flex xs12 sm6>
                   <v-menu offset-y>
@@ -109,12 +171,3 @@
     }
   }
 </script>
-<style scoped>
-  button {
-    width: 150px !important;
-  }
-  .btn-registrar {
-    background-color: white !important;
-    color: #001C43 !important;
-  }
-</style>
