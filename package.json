@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "demo": "cross-env NODE_ENV=demo env-cmd .env nodemon server.js --config nodemon.json",
     "dev": "cross-env NODE_ENV=development env-cmd .env nodemon server.js --config nodemon.json",
     "test:m": "cross-env NODE_ENV=testing nyc --reporter=html mocha api/modulos/**/*.model.test.js --exit || true",
     "test:c": "cross-env NODE_ENV=testing mocha api/modulos/**/*.controller.test.js --exit || true"

@@ -18,12 +18,21 @@ const registrar = async (datos) => {
   return responses.OK(estudianteCreado)
 }
 
-const registrarParalelo = async (emailEstudiante, idParalelo) => {
-  if (!emailEstudiante) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el email del estudiante' })
+const registrarParalelo = async (email, idParalelo) => {
+  if (!email) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el email del estudiante' })
   if (!idParalelo) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el id del paralelo' })
-  await Estudiantes.registrarParalelo(emailEstudiante, idParalelo)
-  await  Paralelos.registrarEstudiante(idParalelo, emailEstudiante)
-  return responses.OK()
+  let estudiante = await Estudiantes.buscarPorEmailPopulate(email, '-createdAt -updatedAt -clave')
+  if (!estudiante) {
+    return Promise.reject({ message: 'Estudiante no registrado en la base de datos'})
+  }
+  let idEstudiante = estudiante._id
+  return Promise.all([
+    Estudiantes.registrarParalelo(idEstudiante, idParalelo),
+    Paralelos.registrarEstudiante(idParalelo, idEstudiante)
+  ]).then((values) => {
+    return responses.OK()
+  })
+  console.log(12345)
 }
 
 const buscarPorEmail = async (email) => {

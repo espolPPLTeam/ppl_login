@@ -7,14 +7,17 @@ module.exports = {
     }
   },
   URL_DB () {
+    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === 'testing') {
       return 'mongodb://localhost/ppl_testing_v2'
     } else if (process.env.NODE_ENV === 'development') {
       return 'mongodb://localhost/ppl_development_v2'
-    } else if (process.env.NODE_ENV === 'production') { 
+    } else if (process.env.NODE_ENV === 'production') {
       return 'mongodb://localhost/ppl_production_v2'
+    } else if (process.env.NODE_ENV === 'demo') {
+      return 'mongodb://localhost/ppl_demo'
     } else {
-      console.error('No se ha especificado una variable de entorno')
+      console.error('NODE_ENV missing')
       process.exit(1)
     }
   },

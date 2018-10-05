@@ -17,12 +17,12 @@ let Conectar = function (url) {
 
     db.on('connected', function () {
       if (process.env.NODE_ENV !== 'testing' && process.env.NODE_ENV !== 'production')
-        console.log(`app de PPL conectada con ${url}`)
+        console.log(`login_ppl connected with  ${url}`)
     })
 
     db.on('disconnected', function() {
       if (process.env.NODE_ENV !== 'testing' && process.env.NODE_ENV !== 'production')
-        console.log(`base de datos desconectada`)
+        console.log(`Database disconnected`)
     })
     resolve(db)
   })
@@ -30,7 +30,7 @@ let Conectar = function (url) {
 
 let getDatabaseConnection = function () {
   if (!db) {
-    console.error('Llamar los modelos de mongoose despues de inicializar la base de datos')
+    console.error('Database not initialized')
     process.exit(1)
   }
   return db

@@ -90,8 +90,8 @@ EstudiantesSchema.statics = {
   buscarPorEmail (email, projection) {
     return this.findOne({email}).select(projection).exec()
   },
-  registrarParalelo (emailEstudiante, idParalelo) {
-    return this.update({ email: emailEstudiante }, { $addToSet: { paralelos: idParalelo } })
+  registrarParalelo (idEstudiante, idParalelo) {
+    return this.update({ _id: idEstudiante }, { $addToSet: { paralelos: idParalelo } })
   },
   buscarPorEmailPopulate (email, projection) {
     return this.findOne({email}).populate('paralelos').select(projection).exec()
