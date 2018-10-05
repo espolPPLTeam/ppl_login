@@ -4,6 +4,7 @@ const Estudiantes = require('./estudiantes.model')
 const Paralelos = require('../paralelos/paralelos.model')
 
 const registrar = async (datos) => {
+  console.log(datos)
   if (!datos) return Promise.reject({type: 'Type error',  message: 'Debe enviar el estudiante.'})
   let yaExiste = await Estudiantes.buscarPorEmail(datos.email)
   if( yaExiste ) {
@@ -25,7 +26,14 @@ const registrarParalelo = async (emailEstudiante, idParalelo) => {
   return responses.OK()
 }
 
+const buscarPorEmail = async (email) => {
+  if (!email) return Promise.reject({ type: 'Validation error', message: 'Debe ingresar el email del estudiante' })
+  let estudiante = await Estudiantes.buscarPorEmail(email, '-createdAt -updatedAt -clave')
+  return responses.OK(estudiante)
+}
+
 module.exports = {
   registrar,
-  registrarParalelo
+  registrarParalelo,
+  buscarPorEmail
 }

@@ -6,7 +6,7 @@ module.exports = {
     proxy: {
       "/api": {
         logLevel: 'debug',
-        target: "http://localhost:8000",
+        target: "http://localhost:8001",
         ws: true,
         changeOrigin: true,
         pathRewrite: {
