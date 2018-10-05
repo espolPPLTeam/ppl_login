@@ -21,5 +21,5 @@ module.exports = {
       process.exit(1)
     }
   },
-  PORT: process.env.PORT || 8000
+  PORT: process.env.PORT || 8001
 }
