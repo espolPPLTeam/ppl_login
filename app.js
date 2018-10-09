@@ -1,4 +1,3 @@
-const prefix = { prefix: '/api/login' }
 const { logger } = require('./api/config')
 
 const Fastify = require('fastify')
@@ -7,15 +6,16 @@ const fastify = Fastify(logger())
 
 if (process.env.NODE_ENV === 'demo') {
   // API for demo
-const prefixDemo = { prefix: '/api/v0/login' }
+  const prefixDemo = { prefix: '/api/v0/login' }
 
-const estudiantesDemo = require('./api/demo/modulos/estudiantes/estudiantes.routes')
-fastify.register(estudiantesDemo, prefixDemo)
-const paralelosDemo = require('./api/demo/modulos/paralelos/paralelos.routes')
-fastify.register(paralelosDemo, prefixDemo)
-const loginDemo = require('./api/demo/modulos/login/login.routes')
-fastify.register(loginDemo, prefixDemo)
+  const estudiantesDemo = require('./api/demo/modulos/estudiantes/estudiantes.routes')
+  fastify.register(estudiantesDemo, prefixDemo)
+  const paralelosDemo = require('./api/demo/modulos/paralelos/paralelos.routes')
+  fastify.register(paralelosDemo, prefixDemo)
+  const loginDemo = require('./api/demo/modulos/login/login.routes')
+  fastify.register(loginDemo, prefixDemo)
 } else {
+  const prefix = { prefix: '/api/login' }
   // rutas api
   const login = require('./api/modulos/login/login.routes')
   fastify.register(login, prefix)

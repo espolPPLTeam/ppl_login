@@ -69,7 +69,15 @@ const EstudiantesSchema = mongoose.Schema({
       values: ['activo', 'inactivo'],
       message: 'El campo "Estado" solo puede ser "activo" o "inactivo"'
     }
-  }
+  },
+  preguntas: [{
+    type: String,
+    ref: 'PreguntaEstudiante'
+  }],
+  respuestas: [{
+    type: String,
+    ref: 'respuestasATT'
+  }]
 }, { timestamps: false, versionKey: false, collection: 'estudiantes' })
 
 EstudiantesSchema.virtual('id').get(function(){
@@ -93,8 +101,8 @@ EstudiantesSchema.statics = {
   registrarParalelo (idEstudiante, idParalelo) {
     return this.update({ _id: idEstudiante }, { $addToSet: { paralelos: idParalelo } })
   },
-  buscarPorEmailPopulate (email, projection) {
-    return this.findOne({email}).populate('paralelos').select(projection).exec()
+  buscarPorEmailPopulate (criteria, projection, options, populate) {
+    return this.findOne(criteria, projection, options).populate(populate).exec()
   }
 }
 

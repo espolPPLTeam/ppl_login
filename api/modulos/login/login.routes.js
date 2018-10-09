@@ -23,5 +23,15 @@ module.exports = function (app, opts, next) {
     }
   })
 
+  app.get('/session/att', async (req, res) => {
+    try{
+      const decoded = await Auth.verifyToken(req)
+      let resp = await LoginController.obtenerUsuarioATT(decoded)
+      return { datos: resp }
+    } catch (err) {
+      return { err: err }
+    }
+  })
+
   next()
 }

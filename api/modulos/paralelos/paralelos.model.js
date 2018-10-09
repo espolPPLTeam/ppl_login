@@ -64,7 +64,19 @@ const ParalelosSchema = mongoose.Schema({
       ref: 'Estudiantes'
     }
   ],
-  grupos: []
+  grupos: [],
+  preguntaActual: { // mostrara la pregunta que actualmente el profesor habilito para que los estudiante respondan, si se quiere desabilitar debe estar vacio ''
+    type: String,
+    ref: 'PreguntaProfesorATT'
+  },
+  preguntasProfesor: [{
+    type: String,
+    ref: 'PreguntaProfesor'
+  }],
+  preguntasEstudiante: [{
+    type: String,
+    ref: 'PreguntaEstudiante'
+  }]
 }, { timestamps: false, versionKey: false, collection: 'paralelos' })
 
 ParalelosSchema.methods = {
@@ -89,6 +101,16 @@ ParalelosSchema.statics = {
   },
   registrarEstudiante (idParalelo, idEstudiante) {
     return this.update({ _id: idParalelo }, { $addToSet: { estudiantes: idEstudiante } })
+  },
+  obtenerPreguntaHabilitada (criteria, populate) {
+    return this.findOne(criteria, projection, options).populate(populate).exec()
+    /* const self = this
+    return new Promise(function(resolve) {
+      resolve(self.findOne({_id: paraleloId}).populate({
+        path: 'preguntaActual',
+        populate: { path: 'respuestas' }
+      }))
+    }) */
   }
 }
 
