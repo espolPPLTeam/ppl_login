@@ -12,5 +12,10 @@ module.exports = function (app, opts, next) {
   	return resp
   })
 
+  app.get('/estudiantes/:email', async (req, res) => {
+  	let resp = await EstudiantesController.buscarPorEmail(req.params.email)
+  	return resp
+  })
+
   next()
 }

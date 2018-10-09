@@ -12,7 +12,7 @@ const login = async (email, clave) => {
   if (!email) {
     return Promise.reject({ message: 'No envió email' })
   }
-
+  console.log('aa')
   let estudiante = await Estudiantes.buscarPorEmail(email, '-createdAt -updatedAt')
   let profesor = await Profesores.buscarPorEmail(email, '-createdAt -updatedAt')
 
