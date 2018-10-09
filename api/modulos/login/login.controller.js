@@ -12,7 +12,6 @@ const login = async (email, clave) => {
   if (!email) {
     return Promise.reject({ message: 'No envió email' })
   }
-  console.log('aa')
   let estudiante = await Estudiantes.buscarPorEmail(email, '-createdAt -updatedAt')
   let profesor = await Profesores.buscarPorEmail(email, '-createdAt -updatedAt')
 
@@ -33,10 +32,9 @@ const login = async (email, clave) => {
 }
 
 const obtenerUsuarioPorEmail = async (email) => {
-  let estudiante = await Estudiantes.buscarPorEmailPopulate(email, '-createdAt -updatedAt -clave')
+  let estudiante = await Estudiantes.buscarPorEmailPopulateV(email, '-createdAt -updatedAt -clave')
   let profesor = await Profesores.buscarPorEmailPopulate(email, '-createdAt -updatedAt -clave')
   let usuario = null
-
   if (estudiante !== null) {
     let paralelos = estudiante.paralelos.map((paralelo) => {
       return {
@@ -143,6 +141,9 @@ const obtenerDatosEstudiante = async (email) => {
       }
     ]
     data = await Estudiantes.buscarPorEmailPopulate(criteria, projection, options, populate)
+    if (data.preguntas) {
+      data.preguntas = []
+    }
     return Promise.resolve(data)
   } catch (error) {
     return Promise.reject(error)

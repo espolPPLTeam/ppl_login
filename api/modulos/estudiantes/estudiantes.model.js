@@ -103,6 +103,9 @@ EstudiantesSchema.statics = {
   },
   buscarPorEmailPopulate (criteria, projection, options, populate) {
     return this.findOne(criteria, projection, options).populate(populate).exec()
+  },
+  buscarPorEmailPopulateV (email, projection) {
+    return this.findOne({email}).populate('paralelos').select(projection).exec()
   }
 }
 
